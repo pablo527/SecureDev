@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  micro_consume_ip:
+    restart: always
+    ports:
+      - 9090:9090
+    build: .
+networks:
+  default:
+    name: mongo-v60_red_interna
+    external: true

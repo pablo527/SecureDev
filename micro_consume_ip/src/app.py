@@ -23,8 +23,8 @@ app = create_app()
 @cache.cached(timeout=1800)
 def get_ip():
    asyncio.run(get_content())
-   return results
-
+   return results.split('\n')
+   
 
 def get_tasks(session):
     tasks = []
@@ -36,6 +36,7 @@ async def get_content():
     async with aiohttp.ClientSession() as session:
         tasks = get_tasks(session)
         responses = await asyncio.gather(*tasks)
+        
         global results
 
         for response in responses:
