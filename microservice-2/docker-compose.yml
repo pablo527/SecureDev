@@ -1,7 +1,7 @@
 version: '3.9'
 
 services:
-  microservice_2:
+  microservice_3:
     restart: always
     ports:
       - 5001:5001
@@ -9,4 +9,5 @@ services:
 networks:
   default:
     name: mongo-v60_red_interna
+    ipv4_address: 192.168.10.30
     external: true
