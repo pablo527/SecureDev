@@ -1,22 +1,19 @@
-import pymongo
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from dbConnectClass import MongoDB
-from datetime import date
-
 
 app = Flask(__name__)
 
-@app.route('/', methods=['GET'])
+@app.route('/insert-data', methods=['POST'])
 def ping():
+    request_data = request.get_json()
+    print(request_data)
+    
     mongoConnection = MongoDB();
     mongoConnection.connetTo('my_db','ips')
-
-    today = date.today()
-    d1 = today.strftime("%d/%m/%Y")
     
-    mongoConnection.insertOneData({'ip_bloqueada': '173.168.5.0', 'registry': d1})
+    mongoConnection.insertOneData(request_data)
     
     return jsonify({'reponse':'Data Insertada!'})
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=7072, debug=True)
+    app.run(host="0.0.0.0", port=5001, debug=True)

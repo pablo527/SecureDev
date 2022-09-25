@@ -1,12 +1,10 @@
-from ast import Try
-from decouple import config
 import pymongo
-
+import os
 
 class MongoDB:
-    USER_DB = config('USER_DB')
-    PASSWORD_DB = config('PASSWORD_DB')
-    MONGO_URI = 'mongodb://{user}:{password}@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&authSource=my_db&appName=mongosh+1.6.0'.format(
+    USER_DB = os.environ['USER_DB']
+    PASSWORD_DB = os.environ['PASSWORD_DB']
+    MONGO_URI = 'mongodb://{user}:{password}@192.168.10.10:27017/?directConnection=true&serverSelectionTimeoutMS=2000&authSource=my_db&appName=mongosh+1.6.0'.format(
         user=USER_DB, password=PASSWORD_DB)
 
     def __init__(self):

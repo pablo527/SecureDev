@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  microservice_2:
+    restart: always
+    ports:
+      - 5001:5001
+    build: .
+networks:
+  default:
+    name: mongo-v60_red_interna
+    external: true
