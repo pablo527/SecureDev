@@ -1,11 +1,11 @@
 from flask import Flask
 from flask_caching import Cache
-import time
 import asyncio
 import aiohttp
+import os
 
-urlDan = 'https://www.dan.me.uk/torlist/'
-urlTorbu = 'https://check.torproject.org/torbulkexitlist'
+urlDan = os.environ['URL_DAN']
+urlTorbu = os.environ['URL_TOR']
 
 results = ''
 
@@ -19,22 +19,17 @@ def create_app():
 
 app = create_app()
 
-@app.route('/getIp', methods=['GET'])
+@app.route('/get', methods=['GET'])
 @cache.cached(timeout=1800)
 def get_ip():
-   start = time.time()
    asyncio.run(get_content())
-   end = time.time()
-   total_time = end - start
-   print(total_time)
-   print('You did it!')
    return results
 
 
 def get_tasks(session):
     tasks = []
-    tasks.append(session.get(urlDan.format(), ssl= False)) 
-    tasks.append(session.get(urlTorbu.format(), ssl=False))
+    tasks.append(session.get(urlDan.format())) 
+    tasks.append(session.get(urlTorbu.format()))
     return tasks
 
 async def get_content():
@@ -46,3 +41,6 @@ async def get_content():
         for response in responses:
             if response.status == 200:
                 results += await response.text()
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)                
