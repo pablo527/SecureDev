@@ -15,6 +15,7 @@ RUN pip3 install -r requirements.txt
 
 ENV URL_DAN https://www.dan.me.uk/torlist
 ENV URL_TOR https://check.torproject.org/torbulkexitlist
+ENV PORT 5000
 
 USER appuser
 EXPOSE 5000
