@@ -9,5 +9,4 @@ services:
 networks:
   default:
     name: mongo-v60_red_interna
-    ipv4_address: 192.168.10.30
     external: true
