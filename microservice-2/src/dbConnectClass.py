@@ -25,7 +25,7 @@ class MongoDB:
         try:
             self.collection.insert_one(data)
         except pymongo.errors as err:
-            print('Ocurrio un error: ', err)
+            print('Ocurrio un error: ', err)            
 
     def closeConnection(self):
         self.client.close()

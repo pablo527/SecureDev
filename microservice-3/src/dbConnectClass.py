@@ -2,14 +2,12 @@ import pymongo
 import os
 
 class MongoDB:
-    #USER_DB = os.environ['USER_DB']
-    #PASSWORD_DB = os.environ['PASSWORD_DB']
-    #IP_DB = os.environ['IP']
-    #MONGO_URI = 'mongodb://{user}:{password}@{IP_DB}:27017/?directConnection=true&serverSelectionTimeoutMS=2000&authSource=my_db&appName=mongosh+1.6.0'.format(
-     #   user=USER_DB, password=PASSWORD_DB,user=IP_DB)
+    USER_DB = os.environ['USER_DB']
+    PASSWORD_DB = os.environ['PASSWORD_DB']
+    IP_DB = os.environ['IP_DB']
+    MONGO_URI = 'mongodb://{user}:{password}@{ip}:27017/?directConnection=true&serverSelectionTimeoutMS=2000&authSource=my_db&appName=mongosh+1.6.0'.format(
+        user=USER_DB, password=PASSWORD_DB,ip=IP_DB)
      
-    MONGO_URI = 'mongodb://security:secrect@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&authSource=my_db&appName=mongosh+1.6.0'
-
     def __init__(self):
         try:
             self.client = pymongo.MongoClient(self.MONGO_URI)
@@ -30,7 +28,7 @@ class MongoDB:
         except pymongo.errors as err:
             print('Ocurrio un error: ', err)
             
-    def getDataFromColection(self):
+    def getDataFromCollection(self):
         try:
             return self.collection.find()
         except pymongo.errors as err:

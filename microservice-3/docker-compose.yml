@@ -4,7 +4,7 @@ services:
   microservice_2:
     restart: always
     ports:
-      - 5003:5003
+      - 5002:5002
     build: .
 networks:
   default:

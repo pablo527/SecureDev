@@ -1,25 +1,45 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify
 from dbConnectClass import MongoDB
-import requests
+import ast
+import asyncio
+import aiohttp
+import os
 
 
 app = Flask(__name__)
-
 @app.route('/', methods=['GET'])
-def ping():    
-    mongoConnection = MongoDB();
+def ping():  
+    mongoConnection = MongoDB()
     mongoConnection.connetTo('my_db','ips')
-    data = mongoConnection.getDataFromColection()
+    data = mongoConnection.getDataFromCollection()
     blocksIps = []
     for r in data:
-        print(r['block_ip'])
-        blocksIps.append(r)
+        blocksIps.append(r['block_ip'])
     
-    listIps = requests.get('')
-    
-    filterIps = [i for i in listIps if i not in blocksIps]
-    
+    results = asyncio.run(get_content())
+    output = ast.literal_eval(results)
+    filterIps = [i for i in output if i not in blocksIps]
+    del results
     return jsonify({'reponse':'Data Consultada!', 'filterIps': filterIps})
 
+
+
+def get_tasks(session):
+    url = os.environ['URL_SERVICE']
+    tasks = []
+    tasks.append(session.get(url.format())) 
+    return tasks
+
+async def get_content():
+    async with aiohttp.ClientSession() as session:
+        tasks = get_tasks(session)
+        responses = await asyncio.gather(*tasks)
+        print(responses[0])
+        print("HELLOO")
+  
+        for response in responses:
+            results= await response.text()
+            return results
+
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5003, debug=True)
+    app.run(host="0.0.0.0", port=os.environ['PORT'])

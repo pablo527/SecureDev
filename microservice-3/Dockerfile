@@ -15,9 +15,12 @@ RUN pip3 install -r requirements.txt
 
 ENV USER_DB=security
 ENV PASSWORD_DB=secrect
+ENV IP_DB=192.168.10.10
+ENV PORT 5002
+ENV URL_SERVICE=http://192.168.10.2:5000/get
 
 USER appuser
-EXPOSE 5003
+EXPOSE 5002
 ENTRYPOINT [ "python3" ]
 
 CMD [ "src/app.py" ]

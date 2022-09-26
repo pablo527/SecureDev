@@ -4,7 +4,7 @@ services:
   micro_consume_ip:
     restart: always
     ports:
-      - 9090:9090
+      - 8080:5000
     build: .
 networks:
   default:
