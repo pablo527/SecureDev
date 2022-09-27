@@ -3,6 +3,8 @@ from flask_caching import Cache
 import asyncio
 import aiohttp
 import os
+import logging
+
 
 urlDan = os.environ['URL_DAN']
 urlTorbu = os.environ['URL_TOR']
@@ -14,8 +16,11 @@ cache= Cache()
 def create_app():
     app = Flask(__name__)
     app.config['CACHE_TYPE'] = 'simple'
+    logging.basicConfig(filename='example.log',level=logging.DEBUG)
     cache.init_app(app)
+
     return app
+
 
 app = create_app()
 
@@ -28,7 +33,8 @@ def get_ip():
 
 def get_tasks(session):
     tasks = []
-    tasks.append(session.get(urlDan.format())) 
+    tasks.append(session.get(urlDan.format()))
+    logging.info('consume url Dan') 
     tasks.append(session.get(urlTorbu.format()))
     return tasks
 
@@ -44,7 +50,10 @@ async def get_content():
                 if response.status == 200:
                     results += await response.text()
     except:
-        print("An exception occurred")                   
+        logging.info("An exception occurred") 
+
+
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=os.environ['PORT'])                
