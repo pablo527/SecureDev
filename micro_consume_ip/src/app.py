@@ -33,15 +33,18 @@ def get_tasks(session):
     return tasks
 
 async def get_content():
-    async with aiohttp.ClientSession() as session:
-        tasks = get_tasks(session)
-        responses = await asyncio.gather(*tasks)
-        
-        global results
+    try:
+        async with aiohttp.ClientSession() as session:
+            tasks = get_tasks(session)
+            responses = await asyncio.gather(*tasks)
+            
+            global results
 
-        for response in responses:
-            if response.status == 200:
-                results += await response.text()
+            for response in responses:
+                if response.status == 200:
+                    results += await response.text()
+    except:
+        print("An exception occurred")                   
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=os.environ['PORT'])                
