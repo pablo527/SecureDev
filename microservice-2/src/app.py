@@ -1,8 +1,13 @@
 from flask import Flask, jsonify, request
 from dbConnectClass import MongoDB
 import re
+import logging
+
 
 app = Flask(__name__)
+
+logging.basicConfig(filename='example.log',level=logging.DEBUG)
+
 
 @app.route('/insert-data', methods=['POST'])
 def ping():

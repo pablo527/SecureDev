@@ -4,9 +4,11 @@ import ast
 import asyncio
 import aiohttp
 import os
-
+import logging
 
 app = Flask(__name__)
+logging.basicConfig(filename='example.log',level=logging.DEBUG)
+
 @app.route('/', methods=['GET'])
 def ping():  
     mongoConnection = MongoDB()
